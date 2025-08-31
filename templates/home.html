@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Premium Predictor</title>
+    <style>
+        body { 
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        h1 { 
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+        .form-group { 
+            margin-bottom: 20px;
+        }
+        label { 
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, select { 
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+        button { 
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        .result { 
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+        .result h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .result h3 {
+            color: #28a745;
+            font-size: 1.8em;
+        }
+        .error {
+            color: #dc3545;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Insurance Premium Predictor</h1>
+        <form action="/predictdata" method="post">
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" required min="18" max="100" placeholder="Enter your age">
+            </div>
+            
+            <div class="form-group">
+                <label for="sex">Sex:</label>
+                <select id="sex" name="sex" required>
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="bmi">BMI:</label>
+                <input type="number" id="bmi" name="bmi" required min="15" max="50" step="0.1" placeholder="Enter your BMI">
+            </div>
+            
+            <div class="form-group">
+                <label for="children">Number of Children:</label>
+                <input type="number" id="children" name="children" required min="0" max="10" placeholder="Enter number of children">
+            </div>
+            
+            <div class="form-group">
+                <label for="smoker">Smoker:</label>
+                <select id="smoker" name="smoker" required>
+                    <option value="">Select</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="region">Region:</label>
+                <select id="region" name="region" required>
+                    <option value="">Select Region</option>
+                    <option value="northeast">Northeast</option>
+                    <option value="northwest">Northwest</option>
+                    <option value="southeast">Southeast</option>
+                    <option value="southwest">Southwest</option>
+                </select>
+            </div>
+            
+            <button type="submit">Predict Premium</button>
+        </form>
+
+        {% if results %}
+        <div class="result">
+            <h2>Predicted Insurance Premium:</h2>
+            {% if results.startswith('Error') or results.startswith('Please') %}
+                <h3 class="error">{{ results }}</h3>
+            {% else %}
+                <h3>{{ results }}</h3>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
